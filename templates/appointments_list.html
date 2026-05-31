@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class='d-flex justify-content-between align-items-center mb-4'>
+<h2>Appointments</h2>
+<a href='/appointments/add/' class='btn btn-primary'>+ New Appointment</a>
+</div>
+
+<div class='row mb-3'>
+<div class='col'><a href='?payment=Paid' class='btn btn-success w-100'>Paid ({{ paid }})</a></div>
+<div class='col'><a href='?payment=Unpaid' class='btn btn-danger w-100'>Unpaid ({{ unpaid }})</a></div>
+<div class='col'><a href='?status=Pending' class='btn btn-warning w-100'>Pending ({{ pending }})</a></div>
+<div class='col'><a href='?status=Completed' class='btn btn-info w-100'>Completed ({{ completed }})</a></div>
+<div class='col'><a href='?status=Cancelled' class='btn btn-secondary w-100'>Cancelled ({{ cancelled }})</a></div>
+<div class='col'><a href='/appointments/' class='btn btn-dark w-100'>Show All</a></div>
+</div>
+
+<div class='card mb-3'><div class='card-body'>
+<form method='get' class='row g-2'>
+<div class='col-md-6'><input type='text' name='q' class='form-control' placeholder='Patient name search...' value='{{ request.GET.q }}'></div>
+<div class='col-md-2'><button type='submit' class='btn btn-primary w-100'>Search</button></div>
+<div class='col-md-2'><a href='/appointments/' class='btn btn-secondary w-100'>Clear</a></div>
+</form>
+</div></div>
+
+<div class='card'><div class='card-body'>
+<table class='table table-hover'>
+<thead class='table-dark'><tr><th>Patient</th><th>Scan Type</th><th>Fees</th><th>Payment</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
+<tbody>
+{% for appt in appointments %}
+<tr>
+<td><strong>{{ appt.patient.full_name }}</strong></td>
+<td>{{ appt.scan_type }}</td>
+<td>Rs. {{ appt.fees }}</td>
+<td>{% if appt.payment_status == 'Paid' %}<span class='badge bg-success'>Paid</span>{% else %}<span class='badge bg-danger'>Unpaid</span>{% endif %}</td>
+<td>{{ appt.appointment_date|date:'d M Y H:i' }}</td>
+<td>{% if appt.status == 'Completed' %}<span class='badge bg-info'>Completed</span>{% elif appt.status == 'Cancelled' %}<span class='badge bg-secondary'>Cancelled</span>{% else %}<span class='badge bg-warning'>Pending</span>{% endif %}</td>
+<td>
+<a href='/appointments/{{ appt.id }}/' class='btn btn-sm btn-primary'>View</a>
+<a href='/appointments/{{ appt.id }}/edit/' class='btn btn-sm btn-warning'>Edit</a>
+<a href='/appointments/{{ appt.id }}/delete/' class='btn btn-sm btn-danger'>Del</a>
+</td>
+</tr>
+{% empty %}
+<tr><td colspan='7' class='text-center'>No appointments found</td></tr>
+{% endfor %}
+</tbody></table>
+</div></div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class='mb-4'>Appointment Detail</h2>
+<div class='row'>
+<div class='col-md-6'>
+<div class='card mb-3'><div class='card-body'>
+<h5>Appointment Info</h5>
+<p><strong>Patient:</strong> {{ appt.patient.full_name }}</p>
+<p><strong>Scan Type:</strong> {{ appt.scan_type }}</p>
+<p><strong>Date:</strong> {{ appt.appointment_date|date:'d M Y H:i' }}</p>
+<p><strong>Notes:</strong> {{ appt.notes }}</p>
+<p><strong>Fees:</strong> Rs. {{ appt.fees }}</p>
+<p><strong>Payment:</strong> {% if appt.payment_status == 'Paid' %}<span class='badge bg-success fs-6'>Paid</span>{% else %}<span class='badge bg-danger fs-6'>Unpaid</span>{% endif %}</p>
+<p><strong>Status:</strong> {% if appt.status == 'Completed' %}<span class='badge bg-info fs-6'>Completed</span>{% elif appt.status == 'Cancelled' %}<span class='badge bg-secondary fs-6'>Cancelled</span>{% else %}<span class='badge bg-warning fs-6'>Pending</span>{% endif %}</p>
+</div></div>
+</div>
+<div class='col-md-6'>
+<div class='card mb-3'><div class='card-body'>
+<h5>Set Fees</h5>
+<form method='post'>
+{% csrf_token %}
+<input type='hidden' name='action' value='set_fees'>
+<div class='input-group'>
+<span class='input-group-text'>Rs.</span>
+<input type='number' name='fees' class='form-control' value='{{ appt.fees }}' min='0'>
+<button type='submit' class='btn btn-primary'>Save Fees</button>
+</div>
+</form>
+</div></div>
+<div class='card mb-3'><div class='card-body'>
+<h5>Payment Status</h5>
+<form method='post' class='d-flex gap-2'>
+{% csrf_token %}
+<button name='action' value='mark_paid' class='btn btn-success w-50'>Mark as Paid</button>
+<button name='action' value='mark_unpaid' class='btn btn-danger w-50'>Mark as Unpaid</button>
+</form>
+</div></div>
+<div class='card'><div class='card-body'>
+<h5>Appointment Status</h5>
+<form method='post' class='d-flex gap-2 flex-wrap'>
+{% csrf_token %}
+<button name='action' value='complete' class='btn btn-info'>Mark Completed</button>
+<button name='action' value='cancel' class='btn btn-secondary'>Mark Cancelled</button>
+<button name='action' value='pending' class='btn btn-warning'>Mark Pending</button>
+</form>
+</div></div>
+</div>
+</div>
+<a href='/appointments/' class='btn btn-dark mt-3'>Back to List</a>
+{% endblock %}

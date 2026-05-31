@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class='mb-4'>Delete Appointment</h2>
+<div class='card' style='max-width:500px'><div class='card-body'>
+<p>Are you sure you want to delete appointment of <strong>{{ appt.patient.full_name }}</strong>?</p>
+<p>Scan: {{ appt.scan_type }} | Date: {{ appt.appointment_date|date:'d M Y' }}</p>
+<form method='post'>
+{% csrf_token %}
+<button type='submit' class='btn btn-danger'>Yes, Delete</button>
+<a href='/appointments/' class='btn btn-secondary'>Cancel</a>
+</form>
+</div></div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class='mb-4'>Scan Detail</h2>
+<div class='card' style='max-width:600px'><div class='card-body'>
+<p><strong>Patient:</strong> {{ scan.patient.full_name }}</p>
+<p><strong>Scan Type:</strong> {{ scan.scan_category }}</p>
+<p><strong>Date:</strong> {{ scan.scan_date|date:'d M Y' }}</p>
+<p><strong>Clinical Notes:</strong> {{ scan.clinical_notes }}</p>
+{% if scan.scan_image %}
+<p><strong>Scan Image:</strong></p>
+<img src='{{ scan.scan_image.url }}' style='max-width:100%;border-radius:8px;'>
+{% endif %}
+<br><br>
+<a href='/radiology/' class='btn btn-secondary'>Back</a>
+<a href='/reports/add/?scan_id={{ scan.id }}' class='btn btn-success'>Create Report</a>
+</div></div>
+{% endblock %}

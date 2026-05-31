@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class='mb-4'>New Scan Record</h2>
+<div class='card' style='max-width:600px'><div class='card-body'>
+<form method='post' enctype='multipart/form-data'>
+{% csrf_token %}
+<div class='mb-3'><label class='form-label'>Patient</label>
+<select name='patient_id' class='form-control' required>
+{% for patient in patients %}
+<option value='{{ patient.id }}'>{{ patient.full_name }}</option>
+{% endfor %}
+</select></div>
+<div class='mb-3'><label class='form-label'>Scan Type</label>
+<select name='scan_category' class='form-control'>
+<option>X-Ray</option><option>Ultrasound</option><option>MRI</option><option>CT Scan</option><option>Mammography</option><option>Fluoroscopy</option>
+</select></div>
+<div class='mb-3'><label class='form-label'>Scan Image</label>
+<input type='file' name='scan_image' class='form-control' accept='image/*'></div>
+<div class='mb-3'><label class='form-label'>Clinical Notes</label>
+<textarea name='clinical_notes' class='form-control' rows='3'></textarea></div>
+<button type='submit' class='btn btn-primary'>Save</button>
+<a href='/radiology/' class='btn btn-secondary'>Cancel</a>
+</form></div></div>
+{% endblock %}

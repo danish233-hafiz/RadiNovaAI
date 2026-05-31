@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class='mb-4'>Create Report</h2>
+<div class='row'>
+<div class='col-md-8'>
+<div class='card'>
+<div class='card-header'><i class='fas fa-file-medical me-2 text-primary'></i>Report Details</div>
+<div class='card-body'>
+<p><strong>Patient:</strong> {{ scan.patient.full_name }}</p>
+<p><strong>Scan Type:</strong> {{ scan.scan_category }}</p>
+<form method='post'>
+{% csrf_token %}
+<div class='mb-3'>
+<label class='form-label fw-bold'>Report Text</label>
+<textarea name='report_text' id='report_text' class='form-control' rows='6' required>{% if ai_suggestion %}{{ ai_suggestion }}{% endif %}</textarea>
+</div>
+<button type='submit' class='btn btn-success'><i class='fas fa-save me-2'></i>Save Report</button>
+<a href='/radiology/' class='btn btn-secondary ms-2'>Cancel</a>
+</form>
+</div>
+</div>
+</div>
+<div class='col-md-4'>
+{% if ai_suggestion %}
+<div class='card border-0' style='background:linear-gradient(135deg,#eff6ff,#dbeafe);'>
+<div class='card-body'>
+<h6 class='fw-bold text-primary mb-3'><i class='fas fa-robot me-2'></i>AI Suggestion</h6>
+<p class='text-muted' style='font-size:0.85rem;'>AI ne yeh findings suggest ki hain — aap edit kar sakte hain.</p>
+<hr>
+<p style='font-size:0.9rem;'>{{ ai_suggestion }}</p>
+<button onclick="document.getElementById('report_text').value='{{ ai_suggestion|escapejs }}'" class='btn btn-primary btn-sm w-100 mt-2'>
+<i class='fas fa-magic me-2'></i>AI Text Use Karo
+</button>
+</div>
+</div>
+{% else %}
+<div class='card border-0' style='background:#f8fafc;'>
+<div class='card-body text-center text-muted'>
+<i class='fas fa-robot fa-3x mb-3 text-primary opacity-50'></i>
+<p style='font-size:0.85rem;'>AI suggestion load ho rahi hai...</p>
+</div>
+</div>
+{% endif %}
+</div>
+</div>
+{% endblock %}

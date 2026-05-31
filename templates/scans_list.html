@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class='d-flex justify-content-between align-items-center mb-4'>
+<h2>Scan Records</h2>
+<a href='/radiology/add/' class='btn btn-primary'>+ New Scan</a>
+</div>
+<div class='card'><div class='card-body'>
+<table class='table table-hover'>
+<thead class='table-dark'><tr><th>Patient</th><th>Scan Type</th><th>Date</th><th>Action</th></tr></thead>
+<tbody>
+{% for scan in scans %}
+<tr>
+<td>{{ scan.patient.full_name }}</td>
+<td>{{ scan.scan_category }}</td>
+<td>{{ scan.scan_date|date:'d M Y' }}</td>
+<td>
+<a href='/radiology/{{ scan.id }}/' class='btn btn-sm btn-info'>View</a>
+<a href='/radiology/{{ scan.id }}/delete/' class='btn btn-sm btn-danger' onclick="return confirm('Delete karen?')">Delete</a>
+</td>
+</tr>
+{% empty %}
+<tr><td colspan='4' class='text-center'>No scans found</td></tr>
+{% endfor %}
+</tbody></table>
+</div></div>
+{% endblock %}

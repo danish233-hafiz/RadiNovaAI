@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class='mb-4'>Edit Appointment</h2>
+<div class='card' style='max-width:600px'><div class='card-body'>
+<form method='post'>
+{% csrf_token %}
+<div class='mb-3'><label class='form-label'>Patient</label>
+<input type='text' class='form-control' value='{{ appt.patient.full_name }}' disabled></div>
+<div class='mb-3'><label class='form-label'>Scan Type</label>
+<select name='scan_type' class='form-control'>
+<option {% if appt.scan_type == 'X-Ray' %}selected{% endif %}>X-Ray</option>
+<option {% if appt.scan_type == 'Ultrasound' %}selected{% endif %}>Ultrasound</option>
+<option {% if appt.scan_type == 'MRI' %}selected{% endif %}>MRI</option>
+<option {% if appt.scan_type == 'CT Scan' %}selected{% endif %}>CT Scan</option>
+<option {% if appt.scan_type == 'Mammography' %}selected{% endif %}>Mammography</option>
+<option {% if appt.scan_type == 'Fluoroscopy' %}selected{% endif %}>Fluoroscopy</option>
+</select></div>
+<div class='mb-3'><label class='form-label'>Date and Time</label>
+<input type='datetime-local' name='appointment_date' class='form-control' required></div>
+<div class='mb-3'><label class='form-label'>Status</label>
+<select name='status' class='form-control'>
+<option {% if appt.status == 'Pending' %}selected{% endif %}>Pending</option>
+<option {% if appt.status == 'Completed' %}selected{% endif %}>Completed</option>
+<option {% if appt.status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+</select></div>
+<div class='mb-3'><label class='form-label'>Notes</label>
+<textarea name='notes' class='form-control' rows='3'>{{ appt.notes }}</textarea></div>
+<button type='submit' class='btn btn-primary'>Update</button>
+<a href='/appointments/' class='btn btn-secondary'>Cancel</a>
+</form></div></div>
+{% endblock %}
