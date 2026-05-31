@@ -52,6 +52,7 @@ urlpatterns = [
     path('login/', custom_login, name='login'),
     path('logout/', custom_logout, name='logout'),
     path('dashboard/', dashboard, name='dashboard'),
+    path('register/', include('users.urls')),
     path('patients/', include('patients.urls')),
     path('appointments/', include('appointments.urls')),
     path('radiology/', include('radiology.urls')),
